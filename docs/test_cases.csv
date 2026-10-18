@@ -1,0 +1,15 @@
+
+Test_ID,Module,Priority,Preconditions,Test_Steps,Test_Data,Expected_Result,Actual_Result,Status,Defect_ID
+AUTH-001,Registration,High,Registration page available,Submit valid registration details,Unique fictional user,Registration succeeds,Pending,Not Run,
+AUTH-002,Registration,High,Registration page available,Submit with required fields missing,Missing fields,Submission is rejected,Pending,Not Run,
+AUTH-003,Registration,Medium,Registration page available,Submit malformed email,Invalid email,Validation error is displayed,Pending,Not Run,
+AUTH-004,Registration,Medium,Existing user available,Register with duplicate email,Duplicate email,Duplicate registration is rejected,Pending,Not Run,
+AUTH-005,Login,High,Registered user available,Submit valid email and password,Valid credentials,Login succeeds,Pending,Not Run,
+AUTH-006,Login,High,Login page available,Submit incorrect password,Invalid password,Login is rejected,Pending,Not Run,
+AUTH-007,Login,Medium,Login page available,Submit empty fields,Blank credentials,Required-field validation is displayed,Pending,Not Run,
+AUTH-008,Profile,High,User logged in,Open profile page,Authenticated user,Correct user profile is displayed,Pending,Not Run,
+ACC-001,Accounts,High,User logged in,Open account listing,Authenticated user,Only user's accounts are displayed,Pending,Not Run,
+ACC-002,Accounts,High,User logged in,Create an account,Valid account request,Account is created successfully,Pending,Not Run,
+ACC-003,Accounts,High,Account exists,Open account details,Owned account,Correct account details are displayed,Pending,Not Run,
+ACC-004,Accounts,High,User logged out,Attempt to open protected account page,Direct URL,Access is denied or redirected,Pending,Not Run,
+ACC-005,Balance,High,Account with known balance exists,Inspect displayed balance,Known balance,Displayed balance matches expected balance,Pending,Not Run,
