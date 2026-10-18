@@ -1,12 +1,9 @@
-
 from pathlib import Path
 
 import pytest
 from selenium import webdriver
 
-
 SCREENSHOT_DIR = Path("artifacts/screenshots")
-
 
 @pytest.fixture
 def driver():
@@ -14,9 +11,10 @@ def driver():
     browser = webdriver.Chrome()
     browser.set_window_size(1280, 900)
 
-    yield browser
-
-    browser.quit()
+    try:
+        yield browser
+    finally:
+        browser.quit()
 
 
 @pytest.hookimpl(hookwrapper=True)
