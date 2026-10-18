@@ -1,5 +1,5 @@
 # Banking-System-Selenium-Testing
-A fictional banking web application tested using Selenium WebDriver, Python, Flask and Pytest.
+A banking system project with a shared browser-testing framework built using Selenium WebDriver, Python and Pytest. The backend uses Node.js, TypeScript and Express.
 
 
 ## Selenium Testing Framework
