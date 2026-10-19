@@ -1,121 +1,172 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+
+import { useState, type FormEvent } from 'react'
 import './App.css'
+import Register from "./Register";
+import Dashboard from "./Dashboard";
+import Accounts from "./Accounts";
+import Transfers from "./Transfers";
+import Transactions from "./Transactions";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [loginError, setLoginError] = useState("");
+
+  const handleLogin = (event: FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+  setLoginError("Login is not connected to the backend yet.");
+};
+  
+if (window.location.pathname === "/register") {
+  return <Register />;
+}
+
+
+
+
+if (window.location.pathname === "/register") {
+  return <Register />;
+}
+
+
+if (window.location.pathname === "/register") {
+  return <Register />;
+}
+
+if (window.location.pathname === "/dashboard") {
+  return <Dashboard />;
+}
+
+if (window.location.pathname === "/accounts") {
+  return <Accounts />;
+}
+
+if (window.location.pathname === "/transfers") {
+  return <Transfers />;
+}
+
+if (window.location.pathname === "/transactions") {
+  return <Transactions />;
+}
+
+
+
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+    <main className="page">
+      <header className="navbar">
+        <a className="brand" href="/" aria-label="CitiBank home">
+          <span className="brand-mark">c</span>
+          <span>CitiBank</span>
+        </a>
+        <span className="nav-label">DIGITAL BANKING</span>
+      </header>
+
+      <section className="login-layout">
+        <aside className="visual-panel">
+          <div className="visual-heading">
+            <p className="eyebrow">YOUR MONEY, YOUR WAY</p>
+            <h1>Banking made<br /><span>simple.</span></h1>
+          </div>
+
+          <div className="card-stage">
+            <div className="bank-card">
+              <div className="card-top">
+                <div className="card-chip">
+                  <span /><span /><span /><span />
+                </div>
+                <span className="contactless">)))</span>
+              </div>
+
+              <div className="card-number">
+                •••• &nbsp; •••• &nbsp; •••• &nbsp; 2048
+              </div>
+
+              <div className="card-bottom">
+                <div>
+                  <span className="card-caption">CARD HOLDER</span>
+                  <span className="card-holder">YOUR NAME</span>
+                </div>
+                <span className="card-network">VISA</span>
+              </div>
+            </div>
+            <div className="card-shadow" />
+          </div>
+
+          <p className="visual-footer">Your everyday account, all in one place.</p>
+        </aside>
+
+        <section className="form-panel">
+          <div className="form-content">
+            <p className="eyebrow">WELCOME BACK</p>
+            <h2>Sign in</h2>
+            <p className="form-subtitle">Access your account.</p>
+
+            <form onSubmit={handleLogin}>
+              <div className="form-group">
+  <div className="field-label">
+    <label htmlFor="email">Email address</label>
+  </div>
+  <input
+    id="email"
+    name="email"
+    type="email"
+    placeholder="Enter your email"
+    autoComplete="email"
+    required
+  />
+</div>
+
+              <div className="form-group">
+                <div className="label-row">
+                  <label htmlFor="password">Password</label>
+                  <a href="#forgot-password" className="forgot-link">
+                    Forgot password?
+                  </a>
+                </div>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  autoComplete="current-password"
+                  required
+                />
+              </div>
+
+              
+{loginError && (
+  <p data-testid="login-error" role="alert">
+    {loginError}
+  </p>
+)}
+
+
+              <button
+  id="login-button"
+  data-testid="login-button"
+  type="submit"
+>
+                Sign in <span>→</span>
+              </button>
+
+              <p className="register-prompt">
+                New here? <a
+  id="register-link"
+  data-testid="register-link"
+  href="/register"
+>
+  Create an account
+</a>
+              </p>
+            </form>
+          </div>
+        </section>
       </section>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <footer className="page-footer">
+        <span>© 2026 CitiBank</span>
+        <span>Secure digital banking</span>
+      </footer>
+    </main>
   )
 }
 

@@ -1,0 +1,590 @@
+
+/* ================================
+   CITIBANK REGISTRATION PAGE
+================================ */
+
+.register-page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 clamp(20px, 5vw, 72px);
+  color: #f4f1fa;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* NAVBAR */
+
+.register-navbar {
+  width: 100%;
+  max-width: 1240px;
+  min-height: 76px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid #2a2831;
+}
+
+.register-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+}
+
+.register-brand-mark {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #a981f6, #6939bf);
+  color: white;
+  font-size: 24px;
+}
+
+.register-nav-label {
+  color: #aaa3b7;
+  font-size: 9px;
+  letter-spacing: 1.4px;
+}
+
+/* MAIN SPLIT LAYOUT */
+
+.register-layout {
+  width: 100%;
+  max-width: 1240px;
+  flex: 1;
+  min-height: 0;
+  margin: 28px auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.88fr);
+  overflow: hidden;
+  border: 1px solid #302b3b;
+  border-radius: 18px;
+  background: #19191e;
+  box-shadow: 0 20px 65px #00000025;
+}
+
+/* LEFT VISUAL PANEL */
+
+.register-visual-panel {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: clamp(26px, 4vw, 48px);
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 85% 5%, #593b8655, transparent 42%),
+    linear-gradient(145deg, #27203d, #1a1823 75%);
+}
+
+.register-visual-heading {
+  text-align: center;
+}
+
+.register-eyebrow {
+  margin: 0 0 13px;
+  color: #bda0ff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+}
+
+.register-visual-heading h1 {
+  margin: 0;
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(29px, 3.2vw, 43px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -1.5px;
+}
+
+.register-visual-heading h1 span {
+  color: #b38aff;
+}
+
+/* BANK CARD */
+
+.register-card-stage {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px 0;
+  perspective: 900px;
+}
+
+.register-bank-card {
+  position: relative;
+  width: min(100%, 350px);
+  aspect-ratio: 1.65;
+  flex-shrink: 0;
+  padding: clamp(16px, 2.2vw, 24px);
+  overflow: hidden;
+  border: 1px solid #ffffff2b;
+  border-radius: 16px;
+
+  background:
+    radial-gradient(ellipse at 90% 0%, #8956ca77, transparent 48%),
+    linear-gradient(135deg, #292438, #17171c 62%, #25202e);
+
+  box-shadow: 0 24px 45px #0000004a;
+  transform: rotate(-3deg);
+}
+
+.register-card-top,
+.register-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.register-card-chip {
+  width: 30px;
+  height: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid #e2d7a0;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #e5d9a9, #99906b);
+}
+
+.register-card-chip span {
+  border: 1px solid #625a40;
+  border-radius: 2px;
+}
+
+.register-contactless {
+  color: #ded5eb;
+  font-size: 17px;
+  transform: rotate(90deg);
+}
+
+.register-card-number {
+  margin-top: clamp(17px, 2.2vw, 28px);
+  color: #f5f1fb;
+  font-size: clamp(11px, 1.3vw, 15px);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.register-card-bottom {
+  align-items: flex-end;
+  margin-top: clamp(16px, 2.2vw, 25px);
+}
+
+.register-card-bottom > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.register-card-caption {
+  color: #aaa0b9;
+  font-size: 7px;
+  letter-spacing: 1.4px;
+}
+
+.register-card-holder {
+  color: #f4f0fa;
+  font-size: 9px;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+}
+
+.register-card-network {
+  flex-shrink: 0;
+  color: #f2edf9;
+  font-size: 20px;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.register-visual-footer {
+  margin: 0;
+  color: #aaa3b7;
+  font-size: 11px;
+  text-align: center;
+}
+
+/* RIGHT FORM PANEL */
+
+.register-form-panel {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(28px, 4vw, 55px);
+  background:
+    radial-gradient(ellipse at 100% 0%, #3d2b5a20, transparent 45%),
+    #19191e;
+}
+
+.register-content {
+  width: 100%;
+  max-width: 360px;
+  margin: auto;
+}
+
+.register-content > .register-eyebrow {
+  text-align: center;
+}
+
+.register-content h2 {
+  margin: 0;
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(27px, 2.6vw, 34px);
+  font-weight: 600;
+  letter-spacing: -1px;
+  text-align: center;
+}
+
+.register-subtitle {
+  margin: 9px 0 28px;
+  color: #a09aaa;
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* FORM */
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0;
+}
+
+.register-form-group {
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.register-form-group label {
+  display: block;
+  width: 100%;
+  margin-bottom: 9px;
+  color: #e8e3ef;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.register-form-group input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 48px;
+  padding: 0 14px;
+  border: 1px solid #37333f;
+  border-radius: 8px;
+  outline: none;
+  background: #202025;
+  color: #f4f1fa;
+  font-size: 13px;
+}
+
+.register-form-group input::placeholder {
+  color: #777181;
+}
+
+.register-form-group input:focus {
+  border-color: #9864ef;
+  box-shadow: 0 0 0 3px #9864ef20;
+}
+
+/* SUBMIT BUTTON */
+
+.register-submit {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 8px;
+  background: linear-gradient(100deg, #a476f2, #6d3bc5);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.register-submit:hover {
+  filter: brightness(1.1);
+}
+
+.register-submit:focus-visible {
+  outline: 2px solid #c6a8ff;
+  outline-offset: 3px;
+}
+
+/* STATUS AND SIGN IN LINK */
+
+.register-status {
+  margin: 14px 0 0;
+  color: #c9b6f3;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.register-footer {
+  margin: 24px 0 0;
+  color: #a49dad;
+  font-size: 12px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+.register-footer a {
+  color: #c0a1ff;
+  font-weight: 700;
+}
+
+/* PAGE FOOTER */
+
+.register-page-footer {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 15px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid #29272f;
+  color: #77717f;
+  font-size: 10px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 760px) {
+  .register-page {
+    padding: 0 22px;
+  }
+
+  .register-layout {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 480px;
+    margin: 22px auto;
+  }
+
+  .register-visual-panel {
+    padding: 28px;
+  }
+
+  .register-visual-heading h1 {
+    font-size: 32px;
+  }
+
+  .register-card-stage {
+    padding: 25px 0;
+  }
+
+  .register-bank-card {
+    width: min(100%, 320px);
+  }
+
+  .register-visual-footer {
+    display: none;
+  }
+
+  .register-form-panel {
+    padding: 32px 28px;
+  }
+}
+
+@media (max-width: 380px) {
+  .register-page {
+    padding: 0 15px;
+  }
+
+  .register-nav-label {
+    font-size: 8px;
+    letter-spacing: 0.7px;
+  }
+
+  .register-visual-panel,
+  .register-form-panel {
+    padding: 24px 20px;
+  }
+
+  .register-card-number {
+    font-size: 10px;
+  }
+}
+
+/* ==================================
+   REGISTRATION PAGE FITTING FIX
+   Match Sign In page dimensions
+================================== */
+
+.register-page {
+  min-height: 100vh;
+  padding: 0 clamp(20px, 5vw, 72px);
+}
+
+.register-navbar {
+  min-height: 76px;
+  flex-shrink: 0;
+}
+
+.register-layout {
+  flex: 1;
+  min-height: 0;
+  margin: 16px auto;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.88fr);
+}
+
+/* Left visual panel */
+
+.register-visual-panel {
+  padding: 26px 32px;
+  gap: 12px;
+}
+
+.register-visual-heading h1 {
+  font-size: clamp(27px, 2.8vw, 36px);
+}
+
+.register-card-stage {
+  padding: 12px 0;
+}
+
+.register-bank-card {
+  width: min(100%, 300px);
+}
+
+.register-card-number {
+  margin-top: 18px;
+}
+
+.register-card-bottom {
+  margin-top: 16px;
+}
+
+/* Right registration form */
+
+.register-form-panel {
+  padding: 24px 36px;
+}
+
+.register-content {
+  max-width: 360px;
+}
+
+.register-content h2 {
+  font-size: 30px;
+}
+
+.register-subtitle {
+  margin: 7px 0 18px;
+  font-size: 12px;
+}
+
+.register-form-group {
+  margin-bottom: 12px;
+}
+
+.register-form-group label {
+  margin-bottom: 6px;
+}
+
+.register-form-group input {
+  height: 42px;
+}
+
+.register-submit {
+  min-height: 44px;
+  margin-top: 5px;
+}
+
+.register-footer {
+  margin-top: 16px;
+}
+
+.register-page-footer {
+  flex-shrink: 0;
+  padding: 10px 0;
+}
+
+/* Smaller laptop screens */
+
+@media (max-height: 760px) and (min-width: 761px) {
+  .register-navbar {
+    min-height: 62px;
+  }
+
+  .register-layout {
+    margin: 12px auto;
+  }
+
+  .register-visual-panel {
+    padding: 20px 28px;
+  }
+
+  .register-form-panel {
+    padding: 18px 30px;
+  }
+
+  .register-subtitle {
+    margin-bottom: 12px;
+  }
+
+  .register-form-group {
+    margin-bottom: 9px;
+  }
+
+  .register-form-group input {
+    height: 38px;
+  }
+
+  .register-submit {
+    min-height: 40px;
+  }
+
+  .register-footer {
+    margin-top: 12px;
+  }
+}
+
+/* Mobile layout */
+
+@media (max-width: 760px) {
+  .register-layout {
+    grid-template-columns: minmax(0, 1fr);
+    margin: 22px auto;
+  }
+
+  .register-visual-panel {
+    padding: 28px;
+  }
+
+  .register-form-panel {
+    padding: 32px 28px;
+  }
+
+  .register-form-group input {
+    height: 46px;
+  }
+}
