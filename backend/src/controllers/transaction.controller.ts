@@ -14,12 +14,16 @@ export async function getTransactions(req: Request, res: Response): Promise<void
             .where({ userId, deleted: false })
             .select('id')
             .all();
+
+        
         const accountIds = accounts.map((account) => account.id);
         if (accountIds.length === 0) {
             res.status(200).json({ message: 'Transactions fetched successfully', transactions: [] });
             return;
         }
         const ownedAccountIds = new Set(accountIds);
+        
+
         const transactions = await db.orm.public.Transaction
             .where((transaction) => or(
                 transaction.payerAccountId.in(accountIds),
@@ -28,6 +32,7 @@ export async function getTransactions(req: Request, res: Response): Promise<void
             .include('payerAccount', (account) => account.select('accountNumber'))
             .include('payeeAccount', (account) => account.select('accountNumber'))
             .all();
+
             
         transactions.sort((a, b) => b.createdAt.localeCompare(a.createdAt) || b.id - a.id);
         const results = transactions.map((transaction) => {
