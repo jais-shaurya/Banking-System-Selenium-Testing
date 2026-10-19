@@ -1,0 +1,321 @@
+[
+  {
+    "id": "dropCheckConstraint.Transaction.transaction_distinct_accounts_a66c6cce",
+    "label": "Drop check constraint \"transaction_distinct_accounts_a66c6cce\" on \"Transaction\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "checkConstraint",
+        "name": "transaction_distinct_accounts_a66c6cce",
+        "table": "Transaction"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"transaction_distinct_accounts_a66c6cce\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "transaction_distinct_accounts_a66c6cce",
+          "public",
+          "\"public\".\"Transaction\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop check constraint \"transaction_distinct_accounts_a66c6cce\"",
+        "sql": "ALTER TABLE \"public\".\"Transaction\" DROP CONSTRAINT \"transaction_distinct_accounts_a66c6cce\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"transaction_distinct_accounts_a66c6cce\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "transaction_distinct_accounts_a66c6cce",
+          "public",
+          "\"public\".\"Transaction\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alterNullability.dropNotNull.Transaction.payee_account_id",
+    "label": "Drop NOT NULL on \"Transaction\".\"payee_account_id\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "payee_account_id",
+        "table": "Transaction"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"payee_account_id\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Transaction",
+          "payee_account_id"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop NOT NULL on \"payee_account_id\"",
+        "sql": "ALTER TABLE \"public\".\"Transaction\" ALTER COLUMN \"payee_account_id\" DROP NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"payee_account_id\" is nullable",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3 AND \"is_nullable\" = $4)) AS \"result\"",
+        "params": [
+          "public",
+          "Transaction",
+          "payee_account_id",
+          "YES"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alterNullability.dropNotNull.Transaction.payer_account_id",
+    "label": "Drop NOT NULL on \"Transaction\".\"payer_account_id\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "payer_account_id",
+        "table": "Transaction"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"payer_account_id\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Transaction",
+          "payer_account_id"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop NOT NULL on \"payer_account_id\"",
+        "sql": "ALTER TABLE \"public\".\"Transaction\" ALTER COLUMN \"payer_account_id\" DROP NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"payer_account_id\" is nullable",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3 AND \"is_nullable\" = $4)) AS \"result\"",
+        "params": [
+          "public",
+          "Transaction",
+          "payer_account_id",
+          "YES"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.Transaction.type",
+    "label": "Add column type to Transaction",
+    "summary": "Adds column type to table Transaction",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "type",
+        "table": "Transaction"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"type\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Transaction",
+          "type"
+        ]
+      },
+      {
+        "description": "ensure table \"Transaction\" is empty before adding NOT NULL column without default",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"public\".\"Transaction\" LIMIT 1) AS \"result\"",
+        "params": [],
+        "meta": {
+          "requiredColumn": {
+            "table": "Transaction",
+            "column": "type",
+            "reason": "newField"
+          }
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"type\"",
+        "sql": "ALTER TABLE \"public\".\"Transaction\" ADD COLUMN \"type\" text NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"type\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "Transaction",
+          "type"
+        ]
+      },
+      {
+        "description": "verify column \"type\" is NOT NULL",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3 AND \"is_nullable\" = $4)) AS \"result\"",
+        "params": [
+          "public",
+          "Transaction",
+          "type",
+          "NO"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "checkConstraint.Transaction.Transaction_type_check_37ebe6f2",
+    "label": "Add check constraint \"Transaction_type_check_37ebe6f2\" on \"Transaction\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "checkConstraint",
+        "name": "Transaction_type_check_37ebe6f2",
+        "table": "Transaction"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Transaction_type_check_37ebe6f2\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Transaction_type_check_37ebe6f2",
+          "public",
+          "\"public\".\"Transaction\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add check constraint \"Transaction_type_check_37ebe6f2\"",
+        "sql": "ALTER TABLE \"public\".\"Transaction\" ADD CONSTRAINT \"Transaction_type_check_37ebe6f2\" CHECK (\"type\" IN ('TRANSFER', 'DEPOSIT', 'WITHDRAWAL'))"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"Transaction_type_check_37ebe6f2\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Transaction_type_check_37ebe6f2",
+          "public",
+          "\"public\".\"Transaction\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "checkConstraint.Transaction.transaction_accounts_by_type_1d513548",
+    "label": "Add check constraint \"transaction_accounts_by_type_1d513548\" on \"Transaction\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "checkConstraint",
+        "name": "transaction_accounts_by_type_1d513548",
+        "table": "Transaction"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"transaction_accounts_by_type_1d513548\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "transaction_accounts_by_type_1d513548",
+          "public",
+          "\"public\".\"Transaction\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add check constraint \"transaction_accounts_by_type_1d513548\"",
+        "sql": "ALTER TABLE \"public\".\"Transaction\" ADD CONSTRAINT \"transaction_accounts_by_type_1d513548\" CHECK ((\n      (\"type\" = 'TRANSFER' AND payer_account_id IS NOT NULL AND payee_account_id IS NOT NULL)\n      OR\n      (\"type\" = 'DEPOSIT' AND payer_account_id IS NULL AND payee_account_id IS NOT NULL)\n      OR\n      (\"type\" = 'WITHDRAWAL' AND payer_account_id IS NOT NULL AND payee_account_id IS NULL)\n    ))"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"transaction_accounts_by_type_1d513548\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "transaction_accounts_by_type_1d513548",
+          "public",
+          "\"public\".\"Transaction\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "checkConstraint.Transaction.transaction_distinct_accounts_a51c4e16",
+    "label": "Add check constraint \"transaction_distinct_accounts_a51c4e16\" on \"Transaction\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "checkConstraint",
+        "name": "transaction_distinct_accounts_a51c4e16",
+        "table": "Transaction"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"transaction_distinct_accounts_a51c4e16\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "transaction_distinct_accounts_a51c4e16",
+          "public",
+          "\"public\".\"Transaction\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add check constraint \"transaction_distinct_accounts_a51c4e16\"",
+        "sql": "ALTER TABLE \"public\".\"Transaction\" ADD CONSTRAINT \"transaction_distinct_accounts_a51c4e16\" CHECK (type <> 'TRANSFER' OR payer_account_id <> payee_account_id)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"transaction_distinct_accounts_a51c4e16\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "transaction_distinct_accounts_a51c4e16",
+          "public",
+          "\"public\".\"Transaction\""
+        ]
+      }
+    ]
+  }
+]

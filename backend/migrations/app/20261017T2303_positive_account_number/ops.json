@@ -1,0 +1,44 @@
+[
+  {
+    "id": "checkConstraint.Account.positive_account_number_2d43456c",
+    "label": "Add check constraint \"positive_account_number_2d43456c\" on \"Account\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "checkConstraint",
+        "name": "positive_account_number_2d43456c",
+        "table": "Account"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"positive_account_number_2d43456c\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "positive_account_number_2d43456c",
+          "public",
+          "\"public\".\"Account\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add check constraint \"positive_account_number_2d43456c\"",
+        "sql": "ALTER TABLE \"public\".\"Account\" ADD CONSTRAINT \"positive_account_number_2d43456c\" CHECK (account_number > 0)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"positive_account_number_2d43456c\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "positive_account_number_2d43456c",
+          "public",
+          "\"public\".\"Account\""
+        ]
+      }
+    ]
+  }
+]
