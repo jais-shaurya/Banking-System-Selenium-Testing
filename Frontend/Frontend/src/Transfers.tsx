@@ -131,6 +131,15 @@ export default function Transfers() {
                 <span>⇄</span> Transfers
               </a>
 
+              <a
+                href="/self-transfer"
+                className="dashboard-menu-item"
+                data-testid="self-transfer-nav"
+              >
+                <span>⇅</span>
+                Self-Transfer
+              </a>
+
               <a href="/transactions" className="transfers-menu-item">
                 <span>◷</span> Transactions
               </a>

@@ -113,6 +113,15 @@ export default function Transactions() {
               </a>
 
               <a
+                href="/self-transfer"
+                className="dashboard-menu-item"
+                data-testid="self-transfer-nav"
+              >
+                <span>⇅</span>
+                Self-Transfer
+              </a>
+
+              <a
                 href="/transactions"
                 className="transactions-menu-item active"
                 aria-current="page"

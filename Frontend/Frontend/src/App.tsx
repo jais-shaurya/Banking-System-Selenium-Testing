@@ -6,6 +6,7 @@ import Dashboard from "./Dashboard";
 import Accounts from "./Accounts";
 import Transfers from "./Transfers";
 import Transactions from "./Transactions";
+import SelfTransfer from "./SelfTransfer";
 
 import { api } from './api';
 
@@ -48,6 +49,10 @@ function App() {
 
   if (window.location.pathname === "/transactions") {
     return <Transactions />;
+  }
+
+  if (window.location.pathname === "/self-transfer") {
+    return <SelfTransfer />;
   }
 
 
