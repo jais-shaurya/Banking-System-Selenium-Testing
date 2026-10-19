@@ -1,6 +1,7 @@
 
 import { useState, type FormEvent } from "react";
 import "./Register.css";
+import { api } from "./api";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -8,13 +9,25 @@ export default function Register() {
   const [phNumber, setPhNumber] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  function handleRegister(event: FormEvent<HTMLFormElement>) {
+  async function handleRegister(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setMessage("");
+    setIsLoading(true);
 
-    setMessage(
-      "Registration form is ready. Backend connection is pending."
-    );
+    try {
+      await api.auth.register({ name, email, phNumber, password });
+      setMessage("Registration successful! You can now sign in.");
+      setName("");
+      setEmail("");
+      setPhNumber("");
+      setPassword("");
+    } catch (err) {
+      setMessage(err instanceof Error ? err.message : "Registration failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -181,8 +194,9 @@ export default function Register() {
                 type="submit"
                 className="register-submit"
                 data-testid="register-button"
+                disabled={isLoading}
               >
-                <span>Create account</span>
+                <span>{isLoading ? "Creating account..." : "Create account"}</span>
                 <span aria-hidden="true">→</span>
               </button>
 

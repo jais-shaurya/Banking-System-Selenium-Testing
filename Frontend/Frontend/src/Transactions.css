@@ -637,3 +637,20 @@
     padding: 20px 15px;
   }
 }
+
+.transactions-error {
+  margin: 0 0 14px;
+  padding: 11px 13px;
+  border: 1px solid #b95c6a55;
+  border-radius: 7px;
+  background: #b95c6a15;
+  color: #ff9ba5;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.transactions-loading {
+  margin: 10px 0;
+  color: #a09aaa;
+  font-size: 12px;
+}

@@ -1,36 +1,44 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Accounts.css";
-
+import { api, getToken, type Account as BackendAccount } from "./api";
 
 type Account = {
-  id: string;
+  id: string | number;
   number: string;
   type: string;
   balance: number;
   currency: string;
 };
 
-const initialAccounts: Account[] = [
-  {
-    id: "ACC001",
-    number: "•••• •••• 4821",
-    type: "Savings Account",
-    balance: 24580.5,
-    currency: "INR",
-  },
-  {
-    id: "ACC002",
-    number: "•••• •••• 9032",
-    type: "Current Account",
-    balance: 12840,
-    currency: "INR",
-  },
-];
+const mapAccount = (acc: BackendAccount): Account => ({
+  id: acc.id,
+  number: String(acc.accountNumber),
+  type: "Savings Account",
+  balance: Number(acc.balance),
+  currency: "INR",
+});
 
 export default function Accounts() {
-  const [accounts] = useState<Account[]>(initialAccounts);
+  const [accounts, setAccounts] = useState<Account[]>([]);
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      window.location.href = "/";
+      return;
+    }
+    api.accounts.list()
+      .then((res) => {
+        setAccounts((res.accounts || []).map(mapAccount));
+      })
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : "Failed to load accounts");
+      });
+  }, []);
 
   const totalBalance = accounts.reduce(
     (total, account) => total + account.balance,
@@ -43,8 +51,20 @@ export default function Accounts() {
       currency: "INR",
     }).format(amount);
 
-  function handleCreateAccount() {
-    setError("Account creation is not connected to the backend yet.");
+  async function handleCreateAccount() {
+    setError("");
+    setMessage("");
+    setIsLoading(true);
+
+    try {
+      const res = await api.accounts.create();
+      setMessage(res.message || "Account created successfully");
+      setAccounts((prev) => [...prev, mapAccount(res.account)]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to create account");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -89,6 +109,23 @@ export default function Accounts() {
           <div className="accounts-sidebar-bottom">
             <p>CITIBANK DIGITAL</p>
             <span>Banking made simple.</span>
+            <button
+              type="button"
+              onClick={() => api.auth.logout()}
+              style={{
+                marginTop: "12px",
+                background: "transparent",
+                border: "1px solid #37313f",
+                color: "#aaa3b7",
+                padding: "6px 12px",
+                borderRadius: "6px",
+                fontSize: "11px",
+                cursor: "pointer",
+                width: "100%",
+              }}
+            >
+              Sign out
+            </button>
           </div>
         </aside>
 
@@ -141,10 +178,21 @@ export default function Accounts() {
               className="accounts-create-button"
               data-testid="create-account-button"
               onClick={handleCreateAccount}
+              disabled={isLoading}
             >
-              <span>+</span> Create Account
+              <span>+</span> {isLoading ? "Creating..." : "Create Account"}
             </button>
           </div>
+
+          {message && (
+            <p
+              className="accounts-success"
+              data-testid="account-create-success"
+              role="status"
+            >
+              {message}
+            </p>
+          )}
 
           {error && (
             <p

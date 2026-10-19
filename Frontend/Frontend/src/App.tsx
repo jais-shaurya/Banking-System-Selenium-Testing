@@ -7,45 +7,48 @@ import Accounts from "./Accounts";
 import Transfers from "./Transfers";
 import Transactions from "./Transactions";
 
+import { api } from './api';
+
 function App() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (event: FormEvent<HTMLFormElement>) => {
-  event.preventDefault();
-  setLoginError("Login is not connected to the backend yet.");
-};
-  
-if (window.location.pathname === "/register") {
-  return <Register />;
-}
+  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setLoginError("");
+    setIsLoading(true);
 
+    try {
+      await api.auth.login({ email, password });
+      window.location.href = "/dashboard";
+    } catch (err) {
+      setLoginError(err instanceof Error ? err.message : "Invalid email or password");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  if (window.location.pathname === "/register") {
+    return <Register />;
+  }
 
+  if (window.location.pathname === "/dashboard") {
+    return <Dashboard />;
+  }
 
-if (window.location.pathname === "/register") {
-  return <Register />;
-}
+  if (window.location.pathname === "/accounts") {
+    return <Accounts />;
+  }
 
+  if (window.location.pathname === "/transfers") {
+    return <Transfers />;
+  }
 
-if (window.location.pathname === "/register") {
-  return <Register />;
-}
-
-if (window.location.pathname === "/dashboard") {
-  return <Dashboard />;
-}
-
-if (window.location.pathname === "/accounts") {
-  return <Accounts />;
-}
-
-if (window.location.pathname === "/transfers") {
-  return <Transfers />;
-}
-
-if (window.location.pathname === "/transactions") {
-  return <Transactions />;
-}
+  if (window.location.pathname === "/transactions") {
+    return <Transactions />;
+  }
 
 
 
@@ -102,18 +105,20 @@ if (window.location.pathname === "/transactions") {
 
             <form onSubmit={handleLogin}>
               <div className="form-group">
-  <div className="field-label">
-    <label htmlFor="email">Email address</label>
-  </div>
-  <input
-    id="email"
-    name="email"
-    type="email"
-    placeholder="Enter your email"
-    autoComplete="email"
-    required
-  />
-</div>
+                <div className="field-label">
+                  <label htmlFor="email">Email address</label>
+                </div>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
 
               <div className="form-group">
                 <div className="label-row">
@@ -128,24 +133,25 @@ if (window.location.pathname === "/transactions") {
                   type="password"
                   placeholder="Enter your password"
                   autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
               </div>
 
-              
-{loginError && (
-  <p data-testid="login-error" role="alert">
-    {loginError}
-  </p>
-)}
-
+              {loginError && (
+                <p data-testid="login-error" role="alert" className="login-error">
+                  {loginError}
+                </p>
+              )}
 
               <button
-  id="login-button"
-  data-testid="login-button"
-  type="submit"
->
-                Sign in <span>→</span>
+                id="login-button"
+                data-testid="login-button"
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? "Signing in..." : <>Sign in <span>→</span></>}
               </button>
 
               <p className="register-prompt">

@@ -477,15 +477,25 @@
   text-align: center;
 }
 
+.accounts-success,
 .accounts-error {
   margin: 0 0 14px;
   padding: 11px 13px;
-  border: 1px solid #b95c6a55;
   border-radius: 7px;
-  background: #b95c6a15;
-  color: #ff9ba5;
   font-size: 12px;
   line-height: 1.5;
+}
+
+.accounts-success {
+  border: 1px solid #417e6355;
+  background: #417e6315;
+  color: #91d5af;
+}
+
+.accounts-error {
+  border: 1px solid #b95c6a55;
+  background: #b95c6a15;
+  color: #ff9ba5;
 }
 
 /* =====================================

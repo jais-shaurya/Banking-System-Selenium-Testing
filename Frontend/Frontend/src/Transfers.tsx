@@ -1,37 +1,52 @@
 
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import "./Transfers.css";
+import { api, getToken, type Account as BackendAccount } from "./api";
 
 type Account = {
-  id: string;
+  id: string | number;
   number: string;
   type: string;
   balance: number;
 };
 
-const demoAccounts: Account[] = [
-  {
-    id: "ACC001",
-    number: "•••• •••• 4821",
-    type: "Savings Account",
-    balance: 24580.5,
-  },
-  {
-    id: "ACC002",
-    number: "•••• •••• 9032",
-    type: "Current Account",
-    balance: 12840,
-  },
-];
+const mapAccount = (acc: BackendAccount): Account => ({
+  id: acc.id,
+  number: String(acc.accountNumber),
+  type: "Savings Account",
+  balance: Number(acc.balance),
+});
 
 export default function Transfers() {
+  const [accounts, setAccounts] = useState<Account[]>([]);
   const [payerAccount, setPayerAccount] = useState("");
   const [payeeAccountNumber, setPayeeAccountNumber] = useState("");
   const [amount, setAmount] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const selectedAccount = demoAccounts.find(
-    (account) => account.id === payerAccount
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      window.location.href = "/";
+      return;
+    }
+    api.accounts.list()
+      .then((res) => {
+        const loaded = (res.accounts || []).map(mapAccount);
+        setAccounts(loaded);
+        if (loaded.length > 0) {
+          setPayerAccount(String(loaded[0].id));
+        }
+      })
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : "Failed to load accounts");
+      });
+  }, []);
+
+  const selectedAccount = accounts.find(
+    (account) => String(account.id) === String(payerAccount)
   );
 
   const formatMoney = (value: number) =>
@@ -40,9 +55,10 @@ export default function Transfers() {
       currency: "INR",
     }).format(value);
 
-  function handleTransfer(event: FormEvent<HTMLFormElement>) {
+  async function handleTransfer(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
+    setSuccess("");
 
     if (!payerAccount || !payeeAccountNumber.trim() || !amount) {
       setError("Please complete all transfer details.");
@@ -61,7 +77,25 @@ export default function Transfers() {
       return;
     }
 
-    setError("Transfers are not connected to the backend yet.");
+    setIsSubmitting(true);
+    try {
+      const res = await api.transfers.create({
+        payerAccountId: Number(payerAccount),
+        payeeAccountNumber: payeeAccountNumber.trim(),
+        amount: String(transferAmount),
+      });
+      setSuccess(res.message || "Transfer completed successfully");
+      setAmount("");
+      setPayeeAccountNumber("");
+
+      // Refresh accounts list to reflect new balances
+      const accRes = await api.accounts.list();
+      setAccounts((accRes.accounts || []).map(mapAccount));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Transfer failed.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -106,6 +140,23 @@ export default function Transfers() {
           <div className="transfers-sidebar-bottom">
             <p>CITIBANK DIGITAL</p>
             <span>Banking made simple.</span>
+            <button
+              type="button"
+              onClick={() => api.auth.logout()}
+              style={{
+                marginTop: "12px",
+                background: "transparent",
+                border: "1px solid #37313f",
+                color: "#aaa3b7",
+                padding: "6px 12px",
+                borderRadius: "6px",
+                fontSize: "11px",
+                cursor: "pointer",
+                width: "100%",
+              }}
+            >
+              Sign out
+            </button>
           </div>
         </aside>
 
@@ -145,12 +196,13 @@ export default function Transfers() {
                     onChange={(event) => {
                       setPayerAccount(event.target.value);
                       setError("");
+                      setSuccess("");
                     }}
                     required
                   >
                     <option value="">Select your account</option>
 
-                    {demoAccounts.map((account) => (
+                    {accounts.map((account) => (
                       <option key={account.id} value={account.id}>
                         {account.type} — {account.number}
                       </option>
@@ -160,7 +212,7 @@ export default function Transfers() {
 
                 {selectedAccount && (
                   <div className="transfers-available-balance">
-                    <span>DEMO AVAILABLE BALANCE</span>
+                    <span>AVAILABLE BALANCE</span>
                     <strong>
                       {formatMoney(selectedAccount.balance)}
                     </strong>
@@ -177,11 +229,12 @@ export default function Transfers() {
                     data-testid="payee-account-number"
                     type="text"
                     inputMode="numeric"
-                    placeholder="Enter recipient account number"
+                    placeholder="Enter 11-digit recipient account number"
                     value={payeeAccountNumber}
                     onChange={(event) => {
                       setPayeeAccountNumber(event.target.value);
                       setError("");
+                      setSuccess("");
                     }}
                     required
                   />
@@ -204,11 +257,22 @@ export default function Transfers() {
                       onChange={(event) => {
                         setAmount(event.target.value);
                         setError("");
+                        setSuccess("");
                       }}
                       required
                     />
                   </div>
                 </div>
+
+                {success && (
+                  <p
+                    className="transfers-success"
+                    data-testid="transfer-success"
+                    role="status"
+                  >
+                    {success}
+                  </p>
+                )}
 
                 {error && (
                   <p
@@ -224,8 +288,9 @@ export default function Transfers() {
                   type="submit"
                   className="transfers-submit-button"
                   data-testid="transfer-button"
+                  disabled={isSubmitting}
                 >
-                  Transfer Money <span>→</span>
+                  {isSubmitting ? "Processing transfer..." : <>Transfer Money <span>→</span></>}
                 </button>
               </form>
             </section>

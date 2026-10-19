@@ -324,10 +324,17 @@ a {
   box-shadow: 0 0 0 3px #9864ef20;
 }
 
-#status-message {
-  margin: 0;
+#status-message,
+[data-testid="login-error"],
+.login-error {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  border: 1px solid #b95c6a55;
+  border-radius: 7px;
+  background: #b95c6a15;
   color: #ff9ba5;
   font-size: 12px;
+  line-height: 1.5;
 }
 
 #login-button {

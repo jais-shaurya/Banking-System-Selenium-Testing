@@ -1,8 +1,10 @@
 
+import { useState, useEffect } from "react";
 import "./Transactions.css";
+import { api, getToken, type Transaction as BackendTransaction } from "./api";
 
 type Transaction = {
-  id: string;
+  id: string | number;
   description: string;
   date: string;
   type: string;
@@ -11,47 +13,67 @@ type Transaction = {
   status: string;
 };
 
-const demoTransactions: Transaction[] = [
-  {
-    id: "TXN001",
-    description: "Salary Deposit",
-    date: "18 Oct 2026",
-    type: "Deposit",
-    direction: "CREDIT",
-    amount: 35000,
-    status: "Completed",
-  },
-  {
-    id: "TXN002",
-    description: "Online Payment",
-    date: "16 Oct 2026",
-    type: "Transfer",
-    direction: "DEBIT",
-    amount: 2450,
-    status: "Completed",
-  },
-  {
-    id: "TXN003",
-    description: "Account Transfer",
-    date: "14 Oct 2026",
-    type: "Transfer",
-    direction: "CREDIT",
-    amount: 5000,
-    status: "Completed",
-  },
-  {
-    id: "TXN004",
-    description: "Utility Payment",
-    date: "12 Oct 2026",
-    type: "Payment",
-    direction: "DEBIT",
-    amount: 1299,
-    status: "Completed",
-  },
-];
+const mapTransaction = (t: BackendTransaction): Transaction => {
+  const isCredit = t.direction.toLowerCase() === "credit";
+  const isoDate = t.createdAt ? t.createdAt.replace(" ", "T") : "";
+  const parsedDate = isoDate ? new Date(isoDate) : null;
+  const dateFormatted = parsedDate && !isNaN(parsedDate.getTime())
+    ? parsedDate.toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })
+    : "Recent";
+
+  let description = `${t.type} Transaction`;
+  if (t.type === "TRANSFER") {
+    description = isCredit
+      ? `Received from Account #${t.from ?? ""}`
+      : `Transfer to Account #${t.to ?? ""}`;
+  } else if (t.type === "DEPOSIT") {
+    description = `Deposit to Account #${t.to ?? ""}`;
+  } else if (t.type === "WITHDRAWAL") {
+    description = `Withdrawal from Account #${t.from ?? ""}`;
+  }
+
+  const statusCapitalized = t.status
+    ? t.status.charAt(0).toUpperCase() + t.status.slice(1)
+    : "Completed";
+
+  return {
+    id: t.id,
+    description,
+    date: dateFormatted,
+    type: t.type,
+    direction: isCredit ? "CREDIT" : "DEBIT",
+    amount: Number(t.amount),
+    status: statusCapitalized,
+  };
+};
 
 export default function Transactions() {
-  const transactions = demoTransactions;
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      window.location.href = "/";
+      return;
+    }
+
+    api.transactions.list()
+      .then((res) => {
+        setTransactions((res.transactions || []).map(mapTransaction));
+      })
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : "Failed to load transactions");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
 
   const formatMoney = (amount: number) =>
     new Intl.NumberFormat("en-IN", {
@@ -103,6 +125,23 @@ export default function Transactions() {
           <div className="transactions-sidebar-bottom">
             <p>CITIBANK DIGITAL</p>
             <span>Banking made simple.</span>
+            <button
+              type="button"
+              onClick={() => api.auth.logout()}
+              style={{
+                marginTop: "12px",
+                background: "transparent",
+                border: "1px solid #37313f",
+                color: "#aaa3b7",
+                padding: "6px 12px",
+                borderRadius: "6px",
+                fontSize: "11px",
+                cursor: "pointer",
+                width: "100%",
+              }}
+            >
+              Sign out
+            </button>
           </div>
         </aside>
 
@@ -179,6 +218,22 @@ export default function Transactions() {
                 {transactions.length} RECORDS
               </span>
             </div>
+
+            {error && (
+              <p
+                className="transactions-error"
+                data-testid="transaction-error"
+                role="alert"
+              >
+                {error}
+              </p>
+            )}
+
+            {isLoading && (
+              <p className="transactions-loading">
+                Loading transactions...
+              </p>
+            )}
 
             <div className="transactions-table-wrapper">
               <table

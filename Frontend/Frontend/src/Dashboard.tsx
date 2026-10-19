@@ -1,40 +1,57 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Dashboard.css";
+import { api, getToken, getUser, setUser, type Account as BackendAccount } from "./api";
 
 type Account = {
-  id: string;
+  id: string | number;
   number: string;
   type: string;
   balance: number;
   currency: string;
 };
 
-const initialAccounts: Account[] = [
-  {
-    id: "ACC001",
-    number: "•••• •••• 4821",
-    type: "Savings Account",
-    balance: 24580.5,
-    currency: "INR",
-  },
-  {
-    id: "ACC002",
-    number: "•••• •••• 9032",
-    type: "Current Account",
-    balance: 12840.0,
-    currency: "INR",
-  },
-];
+const mapAccount = (acc: BackendAccount): Account => ({
+  id: acc.id,
+  number: String(acc.accountNumber),
+  type: "Savings Account",
+  balance: Number(acc.balance),
+  currency: "INR",
+});
 
 export default function Dashboard() {
-  const [accounts] = useState<Account[]>(
-  initialAccounts
-);
-
-
+  const [accounts, setAccounts] = useState<Account[]>([]);
+  const [userName, setUserName] = useState<string>(() => getUser()?.name || "CitiBank User");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      window.location.href = "/";
+      return;
+    }
+
+    api.users.getMe()
+      .then((res) => {
+        if (res.user?.name) {
+          setUserName(res.user.name);
+          setUser(res.user);
+        }
+      })
+      .catch((err) => {
+        console.error("Failed to load user profile", err);
+      });
+
+    api.accounts.list()
+      .then((res) => {
+        setAccounts((res.accounts || []).map(mapAccount));
+      })
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : "Failed to load accounts");
+      });
+  }, []);
 
   const totalBalance = accounts.reduce(
     (total, account) => total + account.balance,
@@ -48,11 +65,20 @@ export default function Dashboard() {
     }).format(amount);
   };
 
-  function handleCreateAccount() {
+  async function handleCreateAccount() {
     setMessage("");
-    setError(
-      "Account creation is not connected to the backend yet."
-    );
+    setError("");
+    setIsLoading(true);
+
+    try {
+      const res = await api.accounts.create();
+      setMessage(res.message || "Account created successfully");
+      setAccounts((prev) => [...prev, mapAccount(res.account)]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to create account");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -108,6 +134,15 @@ export default function Dashboard() {
               </a>
 
               <a
+                href="/self-transfer"
+                className="dashboard-menu-item"
+                data-testid="self-transfer-nav"
+              >
+                <span>⇅</span>
+                Self-Transfer
+              </a>
+
+              <a
                 href="/transactions"
                 className="dashboard-menu-item"
               >
@@ -120,6 +155,23 @@ export default function Dashboard() {
           <div className="dashboard-sidebar-bottom">
             <p>CITIBANK DIGITAL</p>
             <span>Banking made simple.</span>
+            <button
+              type="button"
+              onClick={() => api.auth.logout()}
+              style={{
+                marginTop: "12px",
+                background: "transparent",
+                border: "1px solid #37313f",
+                color: "#aaa3b7",
+                padding: "6px 12px",
+                borderRadius: "6px",
+                fontSize: "11px",
+                cursor: "pointer",
+                width: "100%",
+              }}
+            >
+              Sign out
+            </button>
           </div>
 
         </aside>
@@ -136,7 +188,7 @@ export default function Dashboard() {
               <h1>
                 Welcome back,{" "}
                 <span data-testid="user-name">
-                  CitiBank User
+                  {userName}
                 </span>
               </h1>
 
@@ -203,9 +255,10 @@ export default function Dashboard() {
               className="dashboard-create-button"
               data-testid="create-account-button"
               onClick={handleCreateAccount}
+              disabled={isLoading}
             >
               <span>＋</span>
-              Create Account
+              {isLoading ? "Creating..." : "Create Account"}
             </button>
           </div>
 
