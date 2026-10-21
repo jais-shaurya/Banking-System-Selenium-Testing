@@ -109,6 +109,61 @@ def test_successful_login(api_headers):
 
 
 
+def test_customer_cannot_access_another_customers_account(api_headers):
+    """A customer must not access an account owned by another customer."""
+    email_a = os.getenv("TEST_USER_EMAIL")
+    password_a = os.getenv("TEST_USER_PASSWORD")
+    email_b = os.getenv("TEST_OTHER_USER_EMAIL")
+    password_b = os.getenv("TEST_OTHER_USER_PASSWORD")
+    account_id = os.getenv("TEST_OTHER_ACCOUNT_ID")
+
+    if not all([email_a, password_a, email_b, password_b, account_id]):
+        pytest.skip(
+            "Set both customers' credentials and TEST_OTHER_ACCOUNT_ID."
+        )
+
+    def login(email, password):
+        response = requests.post(
+            f"{BASE_URL}/api/v1/auth/login",
+            headers=api_headers,
+            json={"email": email, "password": password},
+            timeout=5,
+        )
+        assert response.status_code == 200, "Test customer login failed"
+        return response.json()["token"]
+
+    token_a = login(email_a, password_a)
+    token_b = login(email_b, password_b)
+
+    # Confirm the target account belongs to customer B.
+    account_response = requests.get(
+        f"{BASE_URL}/api/v1/accounts/{account_id}",
+        headers={
+            **api_headers,
+            "Authorization": f"Bearer {token_b}",
+        },
+        timeout=5,
+    )
+    assert account_response.status_code == 200, (
+        "The target account must belong to customer B and be accessible."
+    )
+
+    # Customer A must not be able to access customer B's account.
+    response = requests.get(
+        f"{BASE_URL}/api/v1/accounts/{account_id}",
+        headers={
+            **api_headers,
+            "Authorization": f"Bearer {token_a}",
+        },
+        timeout=5,
+    )
+
+    assert response.status_code == 404
+    assert response.json()["error"] == "Account not found"
+
+
+
+
 
 
 
