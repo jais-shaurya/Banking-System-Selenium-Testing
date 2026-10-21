@@ -13,102 +13,107 @@ All test authors should use the shared WebDriver fixture, reusable helpers, conf
 - Pytest
 - pytest-html
 - Google Chrome
+- Requests for backend API tests
 
 ## 3. Environment Setup
 
-Activate the project's virtual environment and install the dependencies:
+Create and activate the project's virtual environment, then install dependencies:
 
-```bash
+```cmd
 python -m venv .venv
-```
-
-Windows PowerShell:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
+.venv\Scripts\activate
 python -m pip install -r requirements.txt
 ```
 
-Configure the application base URL using the project's `config.py` settings or the `BASE_URL` environment variable.
+The backend API defaults to `http://localhost:3000`. The frontend smoke tests use `http://localhost:5173`.
 
-The default URL is `http://localhost:3000`. Confirm the actual frontend URL before running application-dependent tests.
+The API tests use the `API_BASE_URL` environment variable to override the backend URL. Confirm the actual configuration in `config.py` and the relevant test modules before changing URLs.
+
+Authentication tests require the following environment variables:
+
+- `API_KEY`
+- `TEST_USER_EMAIL`
+- `TEST_USER_PASSWORD`
+
+Set these in the terminal used to run Pytest. Use authorized test credentials and never commit secrets to Git.
+
+Start the backend and frontend services required by the tests before executing application-dependent checks.
 
 ## 4. Running Tests
 
-Run the complete test suite:
+Run the complete suite:
 
-```bash
+```cmd
 python -m pytest -v
 ```
 
-Run an individual test module:
+Generate a self-contained HTML report:
 
-```bash
+```cmd
+python -m pytest --html=reports/report.html --self-contained-html -v
+```
+
+Open the report on Windows:
+
+```cmd
+start reports\report.html
+```
+
+Run an individual module:
+
+```cmd
 python -m pytest tests/test_browser_smoke.py -v
-```
-
-Run the helper tests:
-
-```bash
+python -m pytest tests/test_frontend.py -v
 python -m pytest tests/test_helpers.py -v
-```
-
-Run the setup tests:
-
-```bash
+python -m pytest tests/test_session.py -v
 python -m pytest tests/test_setup.py -v
 ```
 
-Run tests with an HTML report:
-
-```bash
-python -m pytest -v --html=reports/report.html --self-contained-html
-```
-
-Create the `reports` directory before generating the HTML report if it does not exist.
+The `reports` directory must exist before generating a report. Authentication tests may be skipped if required environment variables are missing.
 
 ## 5. Shared WebDriver and Helpers
 
-Tests must request the shared `driver` fixture from `tests/conftest.py`.
+Tests must use the shared `driver` fixture from `tests/conftest.py`.
 
-Reusable navigation, waiting, clicking, and text-entry operations should use the functions in `tests/helpers.py` wherever applicable.
+Reusable navigation, waiting, clicking, and text-entry operations should use functions in `tests/helpers.py` wherever applicable.
 
 Avoid creating competing browser fixtures or introducing unnecessary fixed sleep calls.
 
 ## 6. Failure Screenshots
 
-The shared Pytest hook captures a screenshot when a browser test fails, provided the test has an active WebDriver instance.
+The shared Pytest hook captures a screenshot when a Selenium test fails, provided an active WebDriver instance is available.
 
-Screenshots are stored under `artifacts/screenshots/`.
+Screenshots are stored under `artifacts/screenshots/`, according to the current framework configuration.
 
 Inspect screenshots when investigating failures. Do not commit generated screenshots, reports, credentials, or other sensitive test artifacts.
 
 ## 7. Test Data and Database Isolation
 
-The test-data strategy is pending confirmation from the backend team.
+The test-data strategy remains pending confirmation from the backend team.
 
-Before implementing database-dependent tests, confirm:
+Before implementing additional database-dependent tests, confirm:
 
 - Whether a dedicated test database is available.
 - Whether seeded test users and accounts are provided.
 - Whether tests should create fresh data or reuse seed data.
 - The approved database-reset and cleanup procedure.
+- Whether tests can run repeatedly without conflicting with existing data.
 
 Never run destructive reset operations against a production or shared database without explicit authorization.
 
 ## 8. Authentication and Authorization Regression
 
-The backend uses JWT Bearer authentication.
+The current automated suite covers:
 
-Planned scenarios include:
+- Accessing a protected endpoint without a JWT.
+- Rejecting a malformed JWT.
+- Rejecting login requests with an invalid email format.
+- Rejecting login attempts for a nonexistent email.
+- Successful login and access to the protected endpoint using the returned JWT.
+- Denying cross-customer access to another customer's account where supported.
+- Frontend logout redirection to the login page.
 
-- Accessing a protected endpoint without a token.
-- Accessing a protected endpoint with a valid token.
-- Rejecting invalid or malformed tokens.
-- Verifying customer-to-customer access restrictions where supported.
-- Verifying the documented logout behavior.
-
-Final assertions must match the actual API routes and agreed application behavior.
+The tests should continue to assert the documented API responses and actual application behavior. Frontend logout redirection verifies browser behavior; it does not, by itself, establish server-side token revocation.
 
 ## 9. Failure Investigation
 
@@ -122,10 +127,11 @@ When a test fails:
 
 Do not weaken assertions simply to make a test pass.
 
-## 10. Team Convention
+## 10. Team Convention and Handoff
 
 All contributors should use the same fixture names, helper APIs, configuration, dependency versions, and agreed test-data strategy.
 
-Update this document when shared conventions change.
+Before integrating additional test modules, coordinate fixture usage, selectors, and test-data requirements with the other test authors.
 
+Update this document when shared conventions or application behavior change.
 
