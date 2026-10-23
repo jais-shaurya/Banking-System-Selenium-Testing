@@ -1,0 +1,706 @@
+
+/* =====================================
+   CITIBANK ACCOUNTS
+   SECTION 1 - PAGE AND SIDEBAR
+===================================== */
+
+.accounts-page,
+.accounts-page *,
+.accounts-page *::before,
+.accounts-page *::after {
+  box-sizing: border-box;
+}
+
+.accounts-page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 clamp(20px, 5vw, 72px);
+  background: #121216;
+  color: #f4f1fa;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* NAVBAR */
+
+.accounts-navbar {
+  width: 100%;
+  max-width: 1240px;
+  min-height: 76px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-shrink: 0;
+  border-bottom: 1px solid #2a2831;
+}
+
+.accounts-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: #f4f1fa;
+  font-family: 'Manrope', sans-serif;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+  text-decoration: none;
+}
+
+.accounts-brand-mark {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #a981f6, #6939bf);
+  color: white;
+  font-size: 24px;
+}
+
+/* MAIN LAYOUT */
+
+.accounts-layout {
+  width: 100%;
+  max-width: 1240px;
+  flex: 1;
+  min-height: 0;
+  margin: 16px auto;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid #302b3b;
+  border-radius: 18px;
+  background: #19191e;
+  box-shadow: 0 20px 65px #00000025;
+}
+
+/* SIDEBAR */
+
+.accounts-sidebar {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 28px 15px;
+  border-right: 1px solid #302b3b;
+  background:
+    radial-gradient(
+      ellipse at 0% 0%,
+      #593b8630,
+      transparent 50%
+    ),
+    #1b1922;
+}
+
+.accounts-menu-label {
+  margin: 0 0 22px 14px;
+  color: #827a90;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.accounts-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.accounts-menu-item {
+  min-height: 43px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 0 14px;
+  border-radius: 8px;
+  color: #aaa3b7;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.accounts-menu-item > span {
+  width: 20px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.accounts-menu-item:hover {
+  background: #ffffff0a;
+  color: white;
+}
+
+.accounts-menu-item.active {
+  background: linear-gradient(100deg, #9864ef35, #9864ef12);
+  color: #c6a8ff;
+  border: 1px solid #9864ef35;
+}
+
+.accounts-sidebar-bottom {
+  padding: 15px 12px 0;
+  border-top: 1px solid #37313f;
+}
+
+.accounts-sidebar-bottom p {
+  margin: 0 0 7px;
+  color: #bda0ff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+}
+
+.accounts-sidebar-bottom span {
+  color: #827a90;
+  font-size: 11px;
+}
+
+/* CONTENT */
+
+.accounts-main {
+  min-width: 0;
+  padding: 28px clamp(20px, 3vw, 40px);
+  text-align: left;
+}
+
+.accounts-eyebrow {
+  margin: 0 0 10px;
+  color: #bda0ff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-align: left;
+}
+
+.accounts-welcome {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+.accounts-welcome > div:first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.accounts-welcome h1 {
+  margin: 0;
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(23px, 2.5vw, 32px);
+  font-weight: 600;
+  letter-spacing: -1px;
+  text-align: left;
+}
+
+.accounts-welcome h1 span {
+  color: #b38aff;
+}
+
+.accounts-subtitle {
+  margin: 9px 0 0;
+  color: #a09aaa;
+  font-size: 12px;
+  text-align: left;
+}
+
+.accounts-demo-label {
+  flex-shrink: 0;
+  padding: 8px 11px;
+  border: 1px solid #9864ef35;
+  border-radius: 6px;
+  color: #bda0ff;
+  background: #9864ef12;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.accounts-nav-label {
+  color: #aaa3b7;
+  font-size: 9px;
+  letter-spacing: 1.4px;
+}
+
+/* =====================================
+   SECTION 2 - ACCOUNT CARDS
+===================================== */
+
+.accounts-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.accounts-balance-card {
+  position: relative;
+  min-width: 0;
+  min-height: 170px;
+  padding: 24px;
+  overflow: hidden;
+  border: 1px solid #ffffff20;
+  border-radius: 13px;
+  background:
+    radial-gradient(ellipse at 90% 0%, #8956ca77, transparent 55%),
+    linear-gradient(135deg, #39304e, #211a30);
+}
+
+.accounts-balance-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  color: #d1bfed;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+}
+
+.accounts-balance-top span:last-child {
+  font-size: 20px;
+}
+
+.accounts-balance-card h2 {
+  position: relative;
+  z-index: 1;
+  margin: 22px 0 8px;
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(25px, 3vw, 36px);
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.accounts-balance-card p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #c3b7d5;
+  font-size: 11px;
+}
+
+.accounts-balance-decoration {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  right: -65px;
+  bottom: -95px;
+  border: 25px solid #ffffff08;
+  border-radius: 50%;
+}
+
+.accounts-stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 0;
+  padding: 23px;
+  border: 1px solid #37313f;
+  border-radius: 13px;
+  background: #202026;
+}
+
+.accounts-stat-card > span {
+  color: #a69bb8;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+.accounts-stat-card h2 {
+  margin: 8px 0 3px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.accounts-stat-card p {
+  margin: 0;
+  color: #827a90;
+  font-size: 11px;
+}
+
+.accounts-stat-divider {
+  width: 100%;
+  height: 1px;
+  margin: 17px 0;
+  background: #37313f;
+}
+
+.accounts-stat-card strong {
+  margin-top: 9px;
+  color: #c6a8ff;
+  font-size: 12px;
+}
+
+/* ACCOUNT HEADING */
+
+.accounts-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 17px;
+}
+
+.accounts-section-heading h2 {
+  margin: 0;
+  font-family: 'Manrope', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.accounts-section-heading p:last-child {
+  margin: 7px 0 0;
+  color: #a09aaa;
+  font-size: 11px;
+}
+
+/* CREATE ACCOUNT */
+
+.accounts-create-button {
+  min-height: 39px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 15px;
+  border: 0;
+  border-radius: 8px;
+  background: linear-gradient(100deg, #a476f2, #6d3bc5);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.accounts-create-button:hover {
+  filter: brightness(1.1);
+}
+
+.accounts-create-button span {
+  font-size: 17px;
+}
+
+/* ACCOUNT LIST */
+
+.accounts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.accounts-account-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  padding: 16px 18px;
+  border: 1px solid #37313f;
+  border-radius: 10px;
+  background: #202025;
+}
+
+.accounts-account-icon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid #9864ef35;
+  border-radius: 10px;
+  background: #9864ef18;
+  color: #c6a8ff;
+  font-size: 22px;
+}
+
+.accounts-account-details {
+  min-width: 0;
+  flex: 1;
+}
+
+.accounts-account-details h3 {
+  margin: 0 0 5px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.accounts-account-details p {
+  margin: 0 0 5px;
+  color: #a09aaa;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+.accounts-account-details > span {
+  color: #777181;
+  font-size: 10px;
+}
+
+.accounts-account-amount {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  text-align: right;
+}
+
+.accounts-account-amount span {
+  color: #827a90;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.accounts-account-amount strong {
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.accounts-empty {
+  padding: 35px 20px;
+  border: 1px dashed #51465e;
+  border-radius: 10px;
+  color: #a09aaa;
+  font-size: 12px;
+  text-align: center;
+}
+
+.accounts-success,
+.accounts-error {
+  margin: 0 0 14px;
+  padding: 11px 13px;
+  border-radius: 7px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.accounts-success {
+  border: 1px solid #417e6355;
+  background: #417e6315;
+  color: #91d5af;
+}
+
+.accounts-error {
+  border: 1px solid #b95c6a55;
+  background: #b95c6a15;
+  color: #ff9ba5;
+}
+
+/* =====================================
+   SECTION 3 - INFO AND RESPONSIVE
+===================================== */
+
+.accounts-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin-top: 24px;
+  padding: 18px;
+  border: 1px solid #37313f;
+  border-radius: 10px;
+  background: #202025;
+}
+
+.accounts-info-icon {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #9864ef20;
+  color: #c6a8ff;
+  font-size: 18px;
+}
+
+.accounts-info h3 {
+  margin: 0 0 7px;
+  font-size: 12px;
+}
+
+.accounts-info p {
+  margin: 0;
+  color: #a09aaa;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.accounts-preview-note {
+  margin: 22px 0 0;
+  color: #777181;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+/* FOOTER */
+
+.accounts-page-footer {
+  width: 100%;
+  max-width: 1240px;
+  flex-shrink: 0;
+  margin: 0 auto;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid #29272f;
+  color: #77717f;
+  font-size: 10px;
+}
+
+/* SMALL LAPTOP */
+
+@media (max-height: 760px) and (min-width: 761px) {
+  .accounts-navbar {
+    min-height: 62px;
+  }
+
+  .accounts-layout {
+    margin: 12px auto;
+  }
+
+  .accounts-main {
+    padding: 20px 28px;
+  }
+
+  .accounts-welcome {
+    margin-bottom: 18px;
+  }
+
+  .accounts-summary {
+    margin-bottom: 20px;
+  }
+
+  .accounts-balance-card {
+    min-height: 145px;
+    padding: 19px;
+  }
+
+  .accounts-stat-card {
+    padding: 18px;
+  }
+
+  .accounts-account-item {
+    padding: 12px 15px;
+  }
+}
+
+/* TABLET */
+
+@media (max-width: 900px) {
+  .accounts-layout {
+    grid-template-columns: 180px minmax(0, 1fr);
+  }
+
+  .accounts-sidebar {
+    padding: 24px 10px;
+  }
+
+  .accounts-main {
+    padding: 25px 20px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 760px) {
+  .accounts-page {
+    padding: 0 20px;
+  }
+
+  .accounts-layout {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 480px;
+    margin: 22px auto;
+  }
+
+  .accounts-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid #302b3b;
+    padding: 15px;
+  }
+
+  .accounts-menu-label,
+  .accounts-sidebar-bottom {
+    display: none;
+  }
+
+  .accounts-menu {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .accounts-menu-item {
+    min-height: 36px;
+    padding: 0 10px;
+    font-size: 10px;
+  }
+
+  .accounts-menu-item > span {
+    width: auto;
+    font-size: 14px;
+  }
+
+  .accounts-main {
+    padding: 25px 20px;
+  }
+
+  .accounts-welcome {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .accounts-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .accounts-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .accounts-account-item {
+    flex-wrap: wrap;
+  }
+
+  .accounts-account-amount {
+    width: 100%;
+    align-items: flex-start;
+    padding-left: 58px;
+    text-align: left;
+  }
+}
+
+/* VERY SMALL SCREENS */
+
+@media (max-width: 380px) {
+  .accounts-page {
+    padding: 0 15px;
+  }
+
+  .accounts-nav-label {
+    font-size: 8px;
+    letter-spacing: 0.7px;
+  }
+
+  .accounts-main {
+    padding: 20px 15px;
+  }
+
+  .accounts-balance-card h2 {
+    font-size: 25px;
+  }
+}

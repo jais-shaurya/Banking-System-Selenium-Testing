@@ -1,0 +1,691 @@
+
+/* =====================================
+   CITIBANK TRANSFERS
+   SECTION 1 - PAGE AND SIDEBAR
+===================================== */
+
+.transfers-page,
+.transfers-page *,
+.transfers-page *::before,
+.transfers-page *::after {
+  box-sizing: border-box;
+}
+
+.transfers-page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 clamp(20px, 5vw, 72px);
+  background: #121216;
+  color: #f4f1fa;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* NAVBAR */
+
+.transfers-navbar {
+  width: 100%;
+  max-width: 1240px;
+  min-height: 76px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-shrink: 0;
+  border-bottom: 1px solid #2a2831;
+}
+
+.transfers-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: #f4f1fa;
+  font-family: 'Manrope', sans-serif;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+  text-decoration: none;
+}
+
+.transfers-brand-mark {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #a981f6, #6939bf);
+  color: white;
+  font-size: 24px;
+}
+
+.transfers-nav-label {
+  color: #aaa3b7;
+  font-size: 9px;
+  letter-spacing: 1.4px;
+}
+
+/* MAIN LAYOUT */
+
+.transfers-layout {
+  width: 100%;
+  max-width: 1240px;
+  flex: 1;
+  min-height: 0;
+  margin: 16px auto;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid #302b3b;
+  border-radius: 18px;
+  background: #19191e;
+  box-shadow: 0 20px 65px #00000025;
+}
+
+/* SIDEBAR */
+
+.transfers-sidebar {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 28px 15px;
+  border-right: 1px solid #302b3b;
+  background:
+    radial-gradient(
+      ellipse at 0% 0%,
+      #593b8630,
+      transparent 50%
+    ),
+    #1b1922;
+}
+
+.transfers-menu-label {
+  margin: 0 0 22px 14px;
+  color: #827a90;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.transfers-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.transfers-menu-item {
+  min-height: 43px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 0 14px;
+  border-radius: 8px;
+  color: #aaa3b7;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.transfers-menu-item > span {
+  width: 20px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.transfers-menu-item:hover {
+  background: #ffffff0a;
+  color: white;
+}
+
+.transfers-menu-item.active {
+  background: linear-gradient(100deg, #9864ef35, #9864ef12);
+  color: #c6a8ff;
+  border: 1px solid #9864ef35;
+}
+
+.transfers-sidebar-bottom {
+  padding: 15px 12px 0;
+  border-top: 1px solid #37313f;
+}
+
+.transfers-sidebar-bottom p {
+  margin: 0 0 7px;
+  color: #bda0ff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+}
+
+.transfers-sidebar-bottom span {
+  color: #827a90;
+  font-size: 11px;
+}
+
+/* MAIN CONTENT */
+
+.transfers-main {
+  min-width: 0;
+  padding: 28px clamp(20px, 3vw, 40px);
+  text-align: left;
+}
+
+.transfers-eyebrow {
+  margin: 0 0 10px;
+  color: #bda0ff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-align: left;
+}
+
+.transfers-welcome {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+.transfers-welcome > div:first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.transfers-welcome h1 {
+  margin: 0;
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(23px, 2.5vw, 32px);
+  font-weight: 600;
+  letter-spacing: -1px;
+}
+
+.transfers-welcome h1 span {
+  color: #b38aff;
+}
+
+.transfers-subtitle {
+  margin: 9px 0 0;
+  color: #a09aaa;
+  font-size: 12px;
+}
+
+.transfers-demo-label {
+  flex-shrink: 0;
+  padding: 8px 11px;
+  border: 1px solid #9864ef35;
+  border-radius: 6px;
+  color: #bda0ff;
+  background: #9864ef12;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* =====================================
+   SECTION 2 - TRANSFER FORM
+===================================== */
+
+.transfers-content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 18px;
+}
+
+.transfers-form-card {
+  min-width: 0;
+  padding: 26px;
+  border: 1px solid #37313f;
+  border-radius: 13px;
+  background: #202025;
+}
+
+.transfers-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 26px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #37313f;
+}
+
+.transfers-heading-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid #9864ef35;
+  border-radius: 10px;
+  background: #9864ef18;
+  color: #c6a8ff;
+  font-size: 23px;
+}
+
+.transfers-card-heading .transfers-eyebrow {
+  margin-bottom: 6px;
+}
+
+.transfers-card-heading h2 {
+  margin: 0;
+  font-family: 'Manrope', sans-serif;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.transfers-card-heading p:last-child {
+  margin: 7px 0 0;
+  color: #a09aaa;
+  font-size: 11px;
+}
+
+.transfers-form {
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+}
+
+.transfers-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.transfers-field label {
+  color: #e3ddeb;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.transfers-field select,
+.transfers-field > input,
+.transfers-amount-wrapper {
+  width: 100%;
+  min-height: 47px;
+  border: 1px solid #494252;
+  border-radius: 8px;
+  background: #19191e;
+  color: #f4f1fa;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.transfers-field select,
+.transfers-field > input {
+  padding: 0 14px;
+  outline: none;
+}
+
+.transfers-field input::placeholder {
+  color: #777181;
+}
+
+.transfers-field select:focus,
+.transfers-field > input:focus,
+.transfers-amount-wrapper:focus-within {
+  border-color: #a476f2;
+}
+
+.transfers-field select {
+  cursor: pointer;
+}
+
+.transfers-field select option {
+  background: #202025;
+  color: white;
+}
+
+.transfers-amount-wrapper {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.transfers-amount-wrapper > span {
+  padding: 0 15px;
+  color: #bda0ff;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.transfers-amount-wrapper input {
+  width: 100%;
+  height: 45px;
+  min-width: 0;
+  padding: 0 12px 0 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: white;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.transfers-available-balance {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid #9864ef30;
+  border-radius: 8px;
+  background: #9864ef10;
+}
+
+.transfers-available-balance span {
+  color: #a69bb8;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+}
+
+.transfers-available-balance strong {
+  color: #d6c2ff;
+  font-size: 12px;
+}
+
+.transfers-submit-button {
+  width: 100%;
+  min-height: 47px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 4px;
+  border: 0;
+  border-radius: 8px;
+  background: linear-gradient(100deg, #a476f2, #6d3bc5);
+  color: white;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.transfers-submit-button:hover {
+  filter: brightness(1.1);
+}
+
+.transfers-submit-button span {
+  font-size: 18px;
+}
+
+.transfers-success,
+.transfers-error {
+  margin: 0;
+  padding: 11px 13px;
+  border-radius: 7px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.transfers-success {
+  border: 1px solid #417e6355;
+  background: #417e6315;
+  color: #91d5af;
+}
+
+.transfers-error {
+  border: 1px solid #b95c6a55;
+  background: #b95c6a15;
+  color: #ff9ba5;
+}
+
+/* =====================================
+   SECTION 3 - INFO AND RESPONSIVE
+===================================== */
+
+.transfers-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.transfers-info-card {
+  min-width: 0;
+  padding: 24px;
+  overflow: hidden;
+  border: 1px solid #ffffff20;
+  border-radius: 13px;
+  background:
+    radial-gradient(ellipse at 90% 0%, #8956ca55, transparent 60%),
+    linear-gradient(135deg, #39304e, #211a30);
+}
+
+.transfers-info-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 22px;
+  border: 1px solid #ffffff25;
+  border-radius: 10px;
+  background: #ffffff12;
+  color: #d6c2ff;
+  font-size: 24px;
+}
+
+.transfers-info-card h2 {
+  margin: 0 0 12px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 22px;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+}
+
+.transfers-info-description {
+  margin: 0;
+  color: #c3b7d5;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.transfers-info-divider {
+  height: 1px;
+  margin: 22px 0;
+  background: #ffffff20;
+}
+
+.transfers-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.transfers-info-row span {
+  color: #c3b7d5;
+  font-size: 10px;
+}
+
+.transfers-info-row strong {
+  color: #f4f1fa;
+  font-size: 10px;
+  text-align: right;
+}
+
+.transfers-help-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 17px;
+  border: 1px solid #37313f;
+  border-radius: 10px;
+  background: #202025;
+}
+
+.transfers-help-card > span {
+  color: #bda0ff;
+  font-size: 19px;
+}
+
+.transfers-help-card h3 {
+  margin: 0 0 7px;
+  font-size: 12px;
+}
+
+.transfers-help-card p {
+  margin: 0;
+  color: #a09aaa;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.transfers-preview-note {
+  margin: 22px 0 0;
+  color: #777181;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+/* FOOTER */
+
+.transfers-page-footer {
+  width: 100%;
+  max-width: 1240px;
+  flex-shrink: 0;
+  margin: 0 auto;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid #29272f;
+  color: #77717f;
+  font-size: 10px;
+}
+
+/* SMALL LAPTOP */
+
+@media (max-height: 760px) and (min-width: 761px) {
+  .transfers-navbar {
+    min-height: 62px;
+  }
+
+  .transfers-layout {
+    margin: 12px auto;
+  }
+
+  .transfers-main {
+    padding: 20px 28px;
+  }
+
+  .transfers-welcome {
+    margin-bottom: 18px;
+  }
+
+  .transfers-form-card,
+  .transfers-info-card {
+    padding: 19px;
+  }
+
+  .transfers-card-heading {
+    margin-bottom: 19px;
+    padding-bottom: 16px;
+  }
+
+  .transfers-form {
+    gap: 15px;
+  }
+}
+
+/* TABLET */
+
+@media (max-width: 900px) {
+  .transfers-layout {
+    grid-template-columns: 180px minmax(0, 1fr);
+  }
+
+  .transfers-sidebar {
+    padding: 24px 10px;
+  }
+
+  .transfers-main {
+    padding: 25px 20px;
+  }
+
+  .transfers-content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 760px) {
+  .transfers-page {
+    padding: 0 20px;
+  }
+
+  .transfers-layout {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 480px;
+    margin: 22px auto;
+  }
+
+  .transfers-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid #302b3b;
+    padding: 15px;
+  }
+
+  .transfers-menu-label,
+  .transfers-sidebar-bottom {
+    display: none;
+  }
+
+  .transfers-menu {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .transfers-menu-item {
+    min-height: 36px;
+    padding: 0 10px;
+    font-size: 10px;
+  }
+
+  .transfers-menu-item > span {
+    width: auto;
+    font-size: 14px;
+  }
+
+  .transfers-main {
+    padding: 25px 20px;
+  }
+
+  .transfers-welcome {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .transfers-content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* VERY SMALL SCREENS */
+
+@media (max-width: 380px) {
+  .transfers-page {
+    padding: 0 15px;
+  }
+
+  .transfers-nav-label {
+    font-size: 8px;
+    letter-spacing: 0.7px;
+  }
+
+  .transfers-main {
+    padding: 20px 15px;
+  }
+
+  .transfers-form-card,
+  .transfers-info-card {
+    padding: 17px;
+  }
+}
