@@ -2,6 +2,6 @@ import os
 
 BASE_URL = os.getenv(
     "BASE_URL",
-    "http://localhost:3000"
+    "http://localhost:5173"
 )
 
