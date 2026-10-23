@@ -5,6 +5,7 @@ from selenium import webdriver
 
 SCREENSHOT_DIR = Path("artifacts/screenshots")
 
+
 @pytest.fixture
 def driver():
     """Create a browser for a test and close it afterward."""
@@ -44,4 +45,3 @@ def pytest_runtest_makereport(item, call):
 
     except Exception as exc:
         print(f"\nCould not capture failure screenshot: {exc}")
-
